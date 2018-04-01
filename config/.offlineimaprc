@@ -1,0 +1,20 @@
+[general]
+accounts = kdegit
+
+[Account kdegit]
+localrepository = Local
+remoterepository = Remote
+synclabels = yes
+labelsheader = X-Keywords
+
+[Repository Remote]
+type = Gmail
+folderfilter = lambda folder: folder.startswith('[Gmail]/All Mail')
+remoteuser = username
+remotepass = password
+sslcacertfile = /etc/ssl/certs/ca-certificates.crt
+
+[Repository Local]
+type = GmailMaildir
+localfolders = /home/user/kde-commits/
+
