@@ -42,7 +42,7 @@ class MailContentMiner {
         $project = "";
         $subject = $sourceMail->getSubject();
         
-        if ( preg_match_all ('/^\[([^\]]+)\]/',$subject, $projectArray) == 1) {
+        if ( preg_match_all ('/^\[([^\]\/]+)(?:\]|\/)/',$subject, $projectArray) == 1) {
             $project =  $projectArray[1][0];
         }
         else if ( preg_match_all ('/(.*l10n.*)/',$subject, $projectArray) == 1) {
@@ -59,7 +59,7 @@ class MailContentMiner {
     }
     
     public static function getFrom ($sourceMail) {
-        return $sourceMail->getFrom();
+        return str_replace( "<null@kde.org>" , "", iconv_mime_decode($sourceMail->getFrom(),0,"UTF-8"));
     }
     
     public static function getCommitDate ($sourceMail)  {
