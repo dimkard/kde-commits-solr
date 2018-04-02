@@ -114,7 +114,7 @@
    <field name="_version_" type="plong" indexed="false" stored="false"/>
     <!-- docValues are enabled by default for long type so we don't need to index the version field  -->
    <field name="date" type="pdate" indexed="true" stored="true"/>
-   <field name="subject" type="text_general" indexed="false" stored="true"/>
+   <field name="subject" type="text_general" indexed="true" stored="true"/>
    <field name="project" type="string" indexed="false" stored="true"/>
    <field name="from" type="string" indexed="true" stored="true"/>
    <field name="message" type="text_general" indexed="true" stored="true"/>
