@@ -2,7 +2,39 @@
 
 namespace SolrKDE;
 
+require_once 'RepositoryInformation.php';
+
 class MailContentMiner {
+    
+    public static function getProjectType ($sourceMail) {
+        $project = self::getProject($sourceMail);
+        $repoInfo = new RepositoryInformation();
+        $repoInfo->loadRepositoryData();
+        $plasma = $repoInfo->getPlasmaProjects();
+        $apps = $repoInfo->getApplicationProjects();
+        $frameworks = $repoInfo->getFrameworksProjects();
+        
+        if( array_search($project, $plasma) ) {
+            return "Plasma";
+        }
+        else if( $project == "translation" ) {
+            return "Translation";
+        }
+        else if( $project == "www" ) {
+            return "www";
+        }
+        else if( array_search($project, $apps) ) {
+            return "Applications";
+        }
+        else if( array_search($project, $frameworks) ) {
+            return "Frameworks";
+        }
+        else {
+            return "Other";
+        }
+        
+        return "Other";
+    }
     
     public static function getClientIp($sourceMail) {  
         $ClientIp = "";
