@@ -94,6 +94,24 @@ class MailContentMiner {
         return str_replace( "<null@kde.org>" , "", iconv_mime_decode($sourceMail->getFrom(),0,"UTF-8"));
     }
     
+    public static function getAuthorInitials ($sourceMail) {
+        $from = trim(self::getFrom($sourceMail));
+        if($from != "l10n daemon script") {
+            $initialsArray = preg_split("/\s+/", $from);
+            $initials = "";
+            foreach ( $initialsArray as $word) {
+                $initial = trim(substr($word, 0, 1));
+                if(!empty($initial)) {
+                    $initials = empty($initials) ? $initial."." : $initials." ".$initial .".";
+                }
+            }
+            return $initials;
+        }
+        else {
+            return $from;
+        }
+    }
+    
     public static function getCommitDate ($sourceMail)  {
         $commitDate = date_create($sourceMail->getMailDate());
         $commitdateFormatted = date_format($commitDate, 'Y-m-d\TH:i:s\Z');

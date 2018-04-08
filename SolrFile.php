@@ -17,6 +17,7 @@ class SolrFile {
     private $isTranslation;
     private $translationLanguage;
     private $projectType;
+    private $authorInitials;
 
     
     public function setFromMail($sourceMail) {
@@ -33,6 +34,7 @@ class SolrFile {
 		$this->setIstranslation($sourceMail) ;
 		$this->setTranslationLanguage($sourceMail) ;
 		$this->setProjectType($sourceMail) ;
+		$this->setAuthorInitials($sourceMail) ;
     }
 
     public function getJson() {
@@ -51,6 +53,7 @@ class SolrFile {
     			"istranslation" => $this->isTranslation,
     			"translationlanguage" =>  $this->translationLanguage,
     			"type" => $this->projectType,
+    			"authorinitials" => $this->authorInitials,
     			);
 
     	return \json_encode($commitArray, JSON_PRETTY_PRINT,512);
@@ -110,6 +113,10 @@ class SolrFile {
     private function setIstranslation($sourceMail) {
     	$this->isTranslation = MailContentMiner::getIstranslation($sourceMail);
     }
-    
+
+    private function setAuthorInitials($sourceMail) {
+    	$this->authorInitials = MailContentMiner::getAuthorInitials($sourceMail);
+    }
+
 }
 ?>
