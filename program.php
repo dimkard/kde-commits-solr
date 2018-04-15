@@ -10,8 +10,9 @@ require_once 'SolrService.php';
 
 const SOLR_DATA= '/home/dimitric/Development/kde-commits-solr/solrimport';
 const MAIL_FOLDER = '/home/dimitric/kde-commits/[Gmail].All Mail/new';
-
 const SOLR_HOME = '/home/dimitric/solr-7.1.0';
+const LOG_ARCHIVE=  '/home/dimitric/Development/kde-commits-solr/logarchive';
+
 $mailService = new MailChecker();
 $mailService->setMailFolderFullPath(MAIL_FOLDER);
 $mailService->refresh();
@@ -31,5 +32,7 @@ foreach($listOfMails as $mailFileName) {
     FileSystem::saveFile($solrFile->getId().".json", SOLR_DATA, $solrFile->getJson() );
 }
 $solrService->updateSolr(SOLR_DATA, "*.json");
-
+if( FileSystem::copyToFolder(SOLR_DATA, LOG_ARCHIVE) ) {
+    FileSystem::clearFolder(SOLR_DATA);
+}
 ?>

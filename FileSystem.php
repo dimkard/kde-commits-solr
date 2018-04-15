@@ -5,10 +5,10 @@ namespace SolrKDE;
 class FileSystem {
     public static function copyToFolder($srcFolder, $dstFolder) {
         $success = false;
-        if ($srcFolderResource = openFolder ( $srcFolder )) {
+        if ($srcFolderResource = self::openFolder ( $srcFolder )) {
             while ( ($fileName = readdir ( $srcFolderResource )) !== false ) {
                 if ($fileName != '.' && $fileName != '..') {
-                    copy ( $newmaildir . "/" . $file_name, $dstFolder . '/'.$fileName);
+                    copy ( $srcFolder . "/" . $fileName, $dstFolder . '/'.$fileName);
                 }
             }
             closedir ( $srcFolderResource );
@@ -25,7 +25,13 @@ class FileSystem {
         }
         return null;
     }
+    
     public static function clearFolder($folder) {
+        $folderIterator = new \RecursiveDirectoryIterator($folder, \FilesystemIterator::SKIP_DOTS);
+        $recursiveFolderIterator  = new \RecursiveIteratorIterator($folderIterator, \RecursiveIteratorIterator::CHILD_FIRST);
+        foreach ( $recursiveFolderIterator as $file ) {
+            $file->isDir() ?  rmdir($file) : unlink($file);
+        }
         return true;
     }
     
@@ -49,6 +55,7 @@ class FileSystem {
         $fileContent = file_get_contents($filePath);
         return $fileContent;
     }
+    
 }
 
 ?>

@@ -49,16 +49,30 @@ class MailContentMiner {
     }
 
     public static function getTranslationLanguage($sourceMail) {  
+        $languageCode="";
         $language="";
         $subject= self::getSubject ($sourceMail);
+        $repoInfo = new RepositoryInformation();
+        $repoInfo->loadRepositoryData();
+        $languages = $repoInfo->getLanguages();
         if (self::getIstranslation($sourceMail)) {
             if ( preg_match_all ('/.*(?:l10n-kf5|l10n-kde4)\/([^\/]+)\//',$subject,$languageArray) == 1) {
-                $language =  $languageArray[1][0];
+                $languageCode =  $languageArray[1][0];
             }
             if ( preg_match_all ('/.*(?:l10n-support\/)([^\/]+)\/summit/',$subject,$languageArray) == 1) {
-                $language = ($languageArray[1][0] != "templates") ? $languageArray[1][0] : "";
+                $languageCode = ($languageArray[1][0] != "templates") ? $languageArray[1][0] : "";
             }
         }
+        
+
+        if( array_key_exists($languageCode,$languages) ) {
+        
+            $language = $languages[$languageCode];
+        }
+        else {
+            $language = "";
+        }
+
         return $language;
     }
            
