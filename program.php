@@ -8,10 +8,10 @@ require_once 'Mail.php';
 require_once 'SolrFile.php';
 require_once 'SolrService.php';
 
-const SOLR_DATA= '/home/dimitric/Development/kde-commits-solr/solrimport';
+const SOLR_DATA= '/home/dimitric/kde-commits-solr/solrimport';
 const MAIL_FOLDER = '/home/dimitric/kde-commits/[Gmail].All Mail/new';
-const SOLR_HOME = '/home/dimitric/solr-7.1.0';
-const LOG_ARCHIVE=  '/home/dimitric/Development/kde-commits-solr/logarchive';
+const SOLR_HOME = '/home/dimitric/solr-7.3.0';
+const LOG_ARCHIVE=  '/home/dimitric/kde-commits-solr/logarchive';
 
 $mailService = new MailChecker();
 $mailService->setMailFolderFullPath(MAIL_FOLDER);
