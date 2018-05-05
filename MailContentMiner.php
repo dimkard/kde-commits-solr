@@ -105,7 +105,11 @@ class MailContentMiner {
     }
     
     public static function getFrom ($sourceMail) {
-        return str_replace( "<null@kde.org>" , "", iconv_mime_decode($sourceMail->getFrom(),0,"UTF-8"));
+        $behalfOf=self::getBehalfOf($sourceMail);
+        if(!empty($behalfOf)) {
+            return $behalfOf;
+        }      
+        return rtrim(str_replace( "<null@kde.org>" , "", iconv_mime_decode($sourceMail->getFrom(),0,"UTF-8")));
     }
     
     public static function getAuthorInitials ($sourceMail) {
@@ -168,5 +172,13 @@ class MailContentMiner {
     public static function getIstranslation($sourceMail) {
         return (self::getProject($sourceMail) == "translation") ? true : false;
     }
+
+    public static function getBehalfOf($sourceMail) {
+        if ( preg_match_all ('/[bB]ehalf\s*[oO]f\s*(.+)/', self::getMessage($sourceMail),$behalfOfArray) == 1) {
+            $urlBehalfOf = str_replace( "=" , "%", $behalfOfArray[1][0]);
+            return rtrim(urldecode($urlBehalfOf),'.');
+        }
+        return "";
+    }    
 }
 ?>
